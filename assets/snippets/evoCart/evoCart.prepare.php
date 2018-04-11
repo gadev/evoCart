@@ -5,6 +5,8 @@ $data['price'] = number_format(str_replace(',', '.', $data['tv.price']), 2);
 
 $data['img'] = $modx->runSnippet('phpthumb', ['input' => $data['tv.img'], 'options' => 'w_70,h_70,zc_1']);
 
+$data['pagetitle'] = htmlspecialchars($data['pagetitle']);
+
 //работаем со скидками evoCartDiscounts
 if(!empty($_SESSION['discounts'])) {
     $dsq = $_SESSION['discounts'];

@@ -7,27 +7,27 @@ switch ($e->name) {
 	case 'OnWebPageInit': {
 		$uid = $modx->getLoginUserID('web');
 		if($uid > 0) {
-			$_SESSION['discounts'] = (new evoCartSales($modx))->render(['user_id' => $uid]);
+			$_SESSION['discounts'] = (new evoCartDiscounts($modx))->render(['user_id' => $uid]);
 		}
 	}
 
 	case 'OnManagerPageInit': {
-		(new evoCartSales($modx))->install();
+		(new evoCartDiscounts($modx))->install();
         return;
 	}
 
     case 'OnWUsrFormRender': {
-        $e->output((new evoCartSales($modx))->renderForm());
+        $e->output((new evoCartDiscounts($modx))->renderForm());
         return;
     }
 
     case 'OnWUsrFormSave': {
-        (new evoCartSales($modx))->save();
+        (new evoCartDiscounts($modx))->save();
         return;
     }
 
     case 'OnWUsrFormDelete': {
-        (new evoCartSales($modx))->delete();
+        (new evoCartDiscounts($modx))->delete();
         return;
     }
 

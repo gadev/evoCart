@@ -19,9 +19,14 @@ if(is_array($json)) {
 }
 $data['orderdata'] = $evoShopItems;
 
+$user = [];
+if($data['userid'] > 0) {
+	$user = $modx->db->getRow($modx->db->select('fullname,phone,email', $modx->getFullTableName('web_user_attributes'), 'internalKey = '.$data['userid'], '', 1));
+}
+
 $json2 = json_decode($data['short_txt'], true);
 if(is_array($json2)) {
-	$data['name'] = $json2['name'];
+	$data['name'] = $json2['name'] ?: $user['fullname'];
 	$data['message'] = !empty($json2['message']) ? '– '.$json2['message'] : '';
 }
 
@@ -39,6 +44,7 @@ foreach($statuses as $k => $v) {
 $data['statuses'] = implode('', $sel);
 
 switch(trim(mb_strtolower($data['payment']))) {
+	case 'наличные':
 	case 'наличными':
 		$i = 'fa-money';
 		break;

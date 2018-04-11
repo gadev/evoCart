@@ -4,7 +4,7 @@
  * formTpl for FormLister
  *
  * @category	chunk
- * @version 	1.0.0
+ * @version 	1.1.0
  * @author	Artyom Kremen
  * @internal    @modx_category evoCart
  * @internal    @installset base
@@ -35,6 +35,14 @@
 	<h3>Оформление заказа:</h3>
 	<form method="POST" class="form-vertical js-ec-form" id="orderCartForm" action="[~[*id*]~]">
 		<input type="hidden" name="formid" value="orderForm">
+        <div class="form-group[+payment.errorClass+][+payment.requiredClass+]">
+			<label for="payment">Метод оплаты</label>
+			<select class="form-control fullwidth" name="payment" id="payment">
+				<option value="наличными" id="curier">Наличными</option>
+				<option value="безналичными">Безналичный платеж</option>
+			</select>
+			<div class="form-control-feedback">[+payment.error+]</div>
+		</div>
 		<div class="form-group[+delivery.errorClass+][+delivery.requiredClass+]">
 			<label for="delivery">Метод доставки</label>
 			<select class="form-control fullwidth" name="delivery" id="delivery">
@@ -68,6 +76,7 @@
 	<p>Пользователь: [+username+]</p>
 	<p>Email: [+email+]</p>
 	<p>Телефон: [+phone+]</p>
+    <p>Метод оплаты: [+payment.value+]</p>
 	<p>Метод доставки: [+delivery.value+]</p>
 	<p>Адрес: [+address.value+]</p>
 	<p>Комментарий к заказу: [+message.value+]</p>
@@ -78,6 +87,7 @@
 	<p>Имя: [+name+]</p>
 	<p>Email: [+email+]</p>
 	<p>Телефон: [+phone+]</p>
+    <p>Метод оплаты: [+payment.value+]</p>
 	<p>Метод доставки: [+delivery.value+]</p>
 	<p>Адрес: [+address.value+]</p>
 	<p>Комментарий к заказу: [+message.value+]</p>
