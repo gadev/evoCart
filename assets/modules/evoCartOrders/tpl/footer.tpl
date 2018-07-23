@@ -18,6 +18,6 @@
 	</div>
 
 
-   <script type="text/javascript" src="[+base_url+]assets/modules/orders/js/main.js"></script>
+   <script type="text/javascript" src="[+base_url+]assets/modules/evoCartOrders/js/main.js"></script>
     </body>
   </html>

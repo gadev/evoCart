@@ -203,6 +203,7 @@ evoCart = {
             });
         });
     },
+    //@TODO: добавить параметр bool - показывать/нет слово "товаров"
     updateCartStatus: function (data) {
         var _res = JSON.parse(data);
         if (_res.data) {

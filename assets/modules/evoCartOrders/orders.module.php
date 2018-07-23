@@ -2,13 +2,12 @@
 
 include_once (MODX_BASE_PATH . 'assets/snippets/DocLister/lib/DLTemplate.class.php');
 include_once (MODX_BASE_PATH . 'assets/lib/APIHelpers.class.php');
-include_once (MODX_BASE_PATH . 'assets/modules/orders/core/prepareDL.class.php');
 
 
 //
 $modx->tpl = \DLTemplate::getInstance($modx);
 $modx->tpl->setTemplateExtension('tpl');
-$modx->tpl->setTemplatePath('assets/modules/orders/tpl/');
+$modx->tpl->setTemplatePath('assets/modules/evoCartOrders/tpl/');
 
 //
 $moduleurl = 'index.php?a=112&id='.$_GET['id'].'&';

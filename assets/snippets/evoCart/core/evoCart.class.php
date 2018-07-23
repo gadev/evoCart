@@ -114,7 +114,7 @@ class evoCart {
     public function shipping() {
         $params = [
             'delivery' => $this->modx->stripTags($_REQUEST['delivery']),
-            'city' => $this->modx->stripTags($_REQUEST['city']),
+            'city' => !empty($_REQUEST['city']) ? $this->modx->stripTags($_REQUEST['city']) : $this->modx->stripTags($_REQUEST['address']),
             'total' => $this->total,
             'dsq' => $this->dsq,
             'qty' => $this->qty
