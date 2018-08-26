@@ -203,14 +203,15 @@ evoCart = {
             });
         });
     },
-    //@TODO: добавить параметр bool - показывать/нет слово "товаров"
     updateCartStatus: function (data) {
         var _res = JSON.parse(data);
         if (_res.data) {
             document.querySelectorAll('.js-ec-qty').forEach(function(item){
-                item.textContent = _res.data.qty + ecHelpers.format(_res.data.qty, itemName);
+                item.textContent = _res.data.qty;
             })
-
+            document.querySelectorAll('.js-ec-qty-txt').forEach(function(item){
+                item.textContent = ecHelpers.format(_res.data.qty, itemName);
+            })
         }
     }
 };
@@ -222,6 +223,8 @@ document.addEventListener('click', function (event) {
     var _target = event.target;
     if(_target.classList.contains('js-ec-add')) {
         evoCart.add(_target);
+    } else if(_target.parentNode.classList.contains('js-ec-add')) {
+        evoCart.add(_target.parentNode);
     }
 });
 document.querySelectorAll('.js-ec-clear').forEach(function(item) {

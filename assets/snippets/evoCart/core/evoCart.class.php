@@ -97,8 +97,8 @@ class evoCart {
             $qty = $qty + $item['count'];
         }
         $out = [
-            'qty'=>$qty,
-            'cart'=>$this->cart
+            'qty' => $qty,
+            'cart' => $this->cart
         ];
         return $out;
     }
@@ -120,10 +120,11 @@ class evoCart {
             'qty' => $this->qty
         ];
         $out = $this->modx->invokeEvent('OnBeforeEvoCartRender', $params);
-        return is_array($out) ? $out[0] : 0;
+        $this->shipping = is_array($out) ? $out[0] : 0;
+        return;
     }
 
-    public function getFullData($chunk = null, $tvs = 'img,price,brand')
+    public function getFullData($chunk = null, $tvs = 'img,price,brand', $nds = 0)
     {
         if(count($this->cart) < 1) {
             http_response_code(400);
@@ -176,7 +177,7 @@ class evoCart {
             $this->total += $ph['total'];
             $number_format = ['tv_price', 'dsq.price', 'dsq.size', 'dsq.total', 'total'];
             foreach($number_format as $plh) {
-                $ph['f.'.$plh] = number_format($ph[$plh], 2);
+                $ph['f.'.$plh] = number_format($ph[$plh], 2, '.', ' ');
             }
             if($chunk) {
                 $cartRow .= $dlt->parseChunk($chunk,$ph);
@@ -185,14 +186,16 @@ class evoCart {
             }
         }
         //$shipping
-        $this->shipping = $this->shipping();
+        $this->shipping();
         $result = [
             'cart' => $cartRow,
-            'total' => number_format($this->total, 2),
-            'dsq' => number_format($this->dsq, 2),
-            'shipping' => number_format($this->shipping, 2),
-            'itogo' => number_format($this->total - $this->dsq + $this->shipping, 2)
+            'total' => number_format($this->total, 2, '.', ' '),
+            'dsq' => number_format($this->dsq, 2, '.', ' '),
+            'shipping' => number_format($this->shipping, 2, '.', ' ')
         ];
+        $itogo = number_format($this->total - $this->dsq + $this->shipping, 2, '.', ' ');
+        $result['itogo'] = $itogo * (100 + (int)$nds)/100;
+
         if($chunk) {
             echo json_encode($result);
             die();

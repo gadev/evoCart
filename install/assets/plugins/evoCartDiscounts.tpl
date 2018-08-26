@@ -15,4 +15,4 @@
  * @lastupdate  11/04/2018
  */
 
-require((MODX_BASE_PATH.'assets/plugins/evoCartDiscounts/init.php');
+require(MODX_BASE_PATH.'assets/plugins/evoCartDiscounts/init.php');

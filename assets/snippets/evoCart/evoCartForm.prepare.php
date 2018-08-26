@@ -7,10 +7,15 @@ $cart = new evoCart($modx);
 
 if (count($cart->total()) > 0){
 
+	$user = [];
 	//работаем с uid
 	$uid = $modx->getLoginUserID('web');
 	if($uid) {
 		$user = $modx->getWebUserInfo($uid);
+	} else {
+		$user['fullname'] = $FormLister->getField('name');
+		$user['phone'] = $FormLister->getField('phone');
+		$user['email'] = $FormLister->getField('email');
 	}
 	//Подготовка к выводу в почте
 	$items = $cart->getFullData();
@@ -38,12 +43,14 @@ if (count($cart->total()) > 0){
 		'delivery'  => $FormLister->getField('delivery'),
 		'address'  => $FormLister->getField('address'),
 		'status'  => 1,
-		'userid'  => $uid
 	];
+	if($uid) {
+		$neworder['userid'] = $uid;
+	}
 	$orderId = $modx->db->insert($neworder, $modx->getFullTableName( 'evocart_orders' ));
 	$modx->db->insert([
 			'timestamp'     => time(),
-			'managerid'     => '',
+			'managerid'     => 0,
 			'action'        => '1',
 			'orderid'       => $orderId,
 			'message'       => 'Добавлен новый заказ',

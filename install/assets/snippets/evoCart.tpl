@@ -24,6 +24,7 @@
 .js-ec-shipping - сумма доставки
 .js-ec-itogo - итого
 .js-ec-qty - кол-во товаров в корзине
+.js-ec-qty-txt - товар/товара/товаров
 
 чанк товара в корзине evoCartRow:
 

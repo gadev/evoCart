@@ -12,7 +12,7 @@
  * @overwrite   true
  */
 
-<div class="itemRow row-[+dl.iteration+] js-ec-item" id="[+key+]">
+<div class="cart__row row-[+dl.iteration+] js-ec-item" id="[+key+]">
 	<div class="item-remove">
 		<a href="javascript:;" class="evoShop_remove js-ec-remove" data-key="[+key+]">×</a>
 	</div>
