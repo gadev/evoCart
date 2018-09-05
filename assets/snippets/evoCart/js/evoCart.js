@@ -23,7 +23,7 @@ ecHelpers = {
         request.setRequestHeader('X-REQUESTED-WITH', 'XMLHttpRequest');
         request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         request.onload = function() {
-            if (request.status >= 200 && parseInt(request.status) < 400) {
+            if (parseInt(request.status) >= 200 && parseInt(request.status) < 400) {
                 if(typeof success === 'function') {
                     success(request.responseText);
                 }
@@ -160,6 +160,12 @@ evoCart = {
                     count: count
                 }, function(data) {
                     evoCart.updateCartStatus(data);
+                    evoCart.getFullCart();
+                }, function(data) {
+                    new Noty({
+                        type: 'error',
+                        text: data ? data : 'Ошибка',
+                    }).show();
                     evoCart.getFullCart();
                 }
             );

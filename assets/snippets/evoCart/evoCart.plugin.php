@@ -11,7 +11,7 @@ if($e->name == 'OnPageNotFound') {
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 	 strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
 
         include_once(MODX_BASE_PATH.'assets/snippets/evoCart/core/evoCart.class.php');
-        $cart = new evoCart($modx);
+        $cart = new evoCart($modx, $params);
         switch($_GET['q']){
             case 'cart_add':
                 $id = (int)$_REQUEST['id'];
@@ -46,7 +46,7 @@ if($e->name == 'OnPageNotFound') {
                 break;
             case 'cart_full':
                 $cartRowTpl = 'evoCartRow';
-                echo $cart->getFullData($params['chunk'], $params['tvs']);
+                echo $cart->getFullData(true);
                 break;
             default:
                 $sql = $modx->db->select('pluginid', $modx->getFullTableName('site_plugin_events'), 'evtid = 1000');

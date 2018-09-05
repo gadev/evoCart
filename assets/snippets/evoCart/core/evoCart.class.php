@@ -2,6 +2,12 @@
 class evoCart {
         private $cart = array();
         private $modx = null;
+        private $config = [
+            'chunk' => 'evoCartRow',
+            'tvs' => 'img,price,brand,article',
+            'availability' => null,
+            'nds' => 0
+        ];
         public $success = false;
         public $qty = 0;
         public $total = 0;
@@ -16,6 +22,7 @@ class evoCart {
     public function __construct($modx, $cfg = array()) {
         if ($modx instanceof DocumentParser) {
             $this->modx = $modx;
+            $this->config = array_merge($this->config, $cfg);
         } else {
             throw new Exception('MODX var is not instaceof DocumentParser');
         }
@@ -78,15 +85,24 @@ class evoCart {
      * @return bool
      */
     public function update($key, $count = 0) {
-                if (!is_scalar($key) || !isset($this->cart[$key])) return false;
+        if (!is_scalar($key) || !isset($this->cart[$key])) return false;
         if ($count <= 0) {
-                        $this->success = $this->remove($key);
-                } else {
-                        $this->cart[$key]['count'] = $count;
-                        $this->success = true;
+            $this->success = $this->remove($key);
+        } else {
+            if($this->config['availability']) {
+                $docid = $this->cart[$key]['id'];
+                $available = $this->modx->db->getValue($this->modx->db->query('SELECT tc.`value` FROM '.$this->modx->getFullTableName('site_tmplvar_contentvalues').' AS `tc` LEFT JOIN '.$this->modx->getFullTableName('site_tmplvars').' AS `t` ON `t`.`id` = `tc`.`tmplvarid` WHERE `t`.`name` = "'.trim($this->config['availability']).'" AND `tc`.`contentid` = '.$docid.' LIMIT 1'));
+                if((int)$available < (int)$count) {
+                    $this->success = false;
+                    $this->error = 'На складе только '.$available.' шт.';
+                    return $this;
                 }
-                return $this;
+            }
+            $this->cart[$key]['count'] = $count;
+            $this->success = true;
         }
+        return $this;
+    }
 
     /**
      * @return array
@@ -124,7 +140,7 @@ class evoCart {
         return;
     }
 
-    public function getFullData($chunk = null, $tvs = 'img,price,brand', $nds = 0)
+    public function getFullData($render = false)
     {
         if(count($this->cart) < 1) {
             http_response_code(400);
@@ -139,14 +155,14 @@ class evoCart {
         $neededFields = [
             'id', 'pagetitle', 'alias', 'url', 'e_title', 'price', 'dsq', 'img'
         ];
-        $tvsArr = explode(',', $tvs);
+        $tvsArr = explode(',', $this->config['tvs']);
         foreach($tvsArr as $tv) {
             $neededFields[] = 'tv.'.$tv;
         }
         $itemsDataJson = $this->modx->runSnippet('DocLister', [
             'documents' => implode(',', $prodIds),
             'api' => implode(',', $neededFields),
-            'tvList' => $tvs,
+            'tvList' => $this->config['tvs'],
             'prepare' => 'prepareEvoCart'
         ]);
         $itemsData = json_decode($itemsDataJson, true);
@@ -179,8 +195,8 @@ class evoCart {
             foreach($number_format as $plh) {
                 $ph['f.'.$plh] = number_format($ph[$plh], 2, '.', ' ');
             }
-            if($chunk) {
-                $cartRow .= $dlt->parseChunk($chunk,$ph);
+            if($render) {
+                $cartRow .= $dlt->parseChunk($this->config['chunk'],$ph);
             } else {
                 $cartRow[] = $ph;
             }
@@ -194,9 +210,9 @@ class evoCart {
             'shipping' => number_format($this->shipping, 2, '.', ' ')
         ];
         $itogo = number_format($this->total - $this->dsq + $this->shipping, 2, '.', ' ');
-        $result['itogo'] = $itogo * (100 + (int)$nds)/100;
+        $result['itogo'] = $itogo * (100 + (int)$this->config['nds'])/100;
 
-        if($chunk) {
+        if($render) {
             echo json_encode($result);
             die();
         }
