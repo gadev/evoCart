@@ -210,7 +210,11 @@ class evoCart {
             'shipping' => number_format($this->shipping, 2, '.', ' ')
         ];
         $itogo = number_format($this->total - $this->dsq + $this->shipping, 2, '.', ' ');
-        $result['itogo'] = $itogo * (100 + (int)$this->config['nds'])/100;
+        if((int)$this->config['nds'] > 0) {
+            $result['itogo'] = $itogo * (100 + (int)$this->config['nds'])/100;
+        } else {
+            $result['itogo'] = $itogo;
+        }
 
         if($render) {
             echo json_encode($result);
@@ -247,6 +251,9 @@ class evoCart {
             die();
         } else {
             http_response_code(400);
+            if(!$error && $this->error) {
+                $error = $this->error;
+            }
             die($error ?: 'Ошибка');
         }
 
