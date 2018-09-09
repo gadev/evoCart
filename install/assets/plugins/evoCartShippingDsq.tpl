@@ -5,14 +5,14 @@
  * работа с расчетом стоимости доставки и общей скидки
  *
  * @category	plugin
- * @version 	1.0.0
+ * @version 	1.0.1
  * @author	Artyom Kremen
  * @internal    @disabled 1
  * @internal    @properties
  * @internal    @events OnBeforeEvoCartRender
  * @internal    @modx_category evoCart
  * @internal    @installset base
- * @lastupdate  09/04/2018
+ * @lastupdate  09/09/2018
  */
 
  $e = &$modx->event;

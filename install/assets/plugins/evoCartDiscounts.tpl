@@ -12,7 +12,7 @@
  * @internal    @events OnWebPageInit,OnManagerPageInit,OnWUsrFormRender,OnWUsrFormSave,OnWUsrFormDelete
  * @internal    @modx_category evoCart
  * @internal    @installset base
- * @lastupdate  11/04/2018
+ * @lastupdate  09/09/2018
  */
 
 require(MODX_BASE_PATH.'assets/plugins/evoCartDiscounts/init.php');

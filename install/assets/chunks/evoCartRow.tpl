@@ -9,7 +9,7 @@
  * @internal    @modx_category evoCart
  * @internal    @installset base
  * @lastupdate  09/04/2018
- * @overwrite   true
+ * @overwrite   false
  */
 
 <div class="cart__row row-[+dl.iteration+] js-ec-item" id="[+key+]">

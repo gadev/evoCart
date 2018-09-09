@@ -5,11 +5,11 @@
  * main snippet with js/css include
  *
  * @category	snippet
- * @version 	1.0.0
+ * @version 	1.0.1
  * @author	Artyom Kremen
  * @internal    @modx_category evoCart
  * @internal    @installset base
- * @lastupdate  09/04/2018
+ * @lastupdate  09/09/2018
  */
 
 /*

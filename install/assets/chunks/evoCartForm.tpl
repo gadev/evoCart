@@ -4,17 +4,17 @@
  * formTpl for FormLister
  *
  * @category	chunk
- * @version 	1.1.0
+ * @version 	1.0.1
  * @author	Artyom Kremen
  * @internal    @modx_category evoCart
  * @internal    @installset base
- * @lastupdate  09/04/2018
- * @overwrite   true
+ * @lastupdate  09/09/2018
+ * @overwrite   false
  */
 
 [!FormLister?
 	&redirectTo=`1`
-	&to=`arty.volen@gmail.com`
+	&to=`email@gmail.com`
 	&subject=`Новый заказ с сайта`
 
 	&debug=`-1`

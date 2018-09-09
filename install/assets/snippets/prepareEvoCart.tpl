@@ -9,7 +9,7 @@
  * @author	Artyom Kremen
  * @internal    @modx_category evoCart
  * @internal    @installset base
- * @lastupdate  11/04/2018
+ * @lastupdate  09/09/2018
  */
 
 return require MODX_BASE_PATH.'assets/snippets/evoCart/evoCart.prepare.php';
