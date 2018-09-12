@@ -60,7 +60,7 @@
 			<label for="message">Комментарий к заказу</label>
 			<textarea class="form-control fullwidth" name="message" id="message" rows="3">[+message.value+]</textarea>
 		</div>
-		<button type="submit" class="btn btn-primary evoShop_submit">Оформить заказ</button>
+		<button type="submit" class="btn btn-primary">Оформить заказ</button>
 	</form>
 	</div>
 	`

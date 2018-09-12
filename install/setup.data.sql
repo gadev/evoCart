@@ -37,7 +37,6 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}discounts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `container` varchar(255) DEFAULT NULL,
-  `title` varchar(255) NOT NULL,
   `config` varchar(255) NOT NULL,
   `values` mediumtext NOT NULL,
   `visible` tinyint(1) unsigned DEFAULT '1',
