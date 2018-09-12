@@ -43,7 +43,40 @@ switch($action) {
 		break;
 	case 'list':
 	default:
-		$data['list'] = $modx->runSnippet('DocLister', [
+		$dl = [];
+		$fields = ['id', 'phone', 'email', 'status'];
+		$filters = [];
+		$is_ajax = false;
+		if($_POST) {
+			$is_ajax = true;
+
+			if((int)$_POST['page'] > 1) {
+				$_GET['list_page'] = (int)$_POST['page'];
+				unset($_POST['page']);
+			}
+			if(!empty($_POST['orderby'])) {
+				$dl['orderBy'] = str_replace(':', ' ', $modx->db->escape($modx->stripTags($_POST['orderby'])));
+			}
+			if((int)$_POST['display'] > 1) {
+				$dl['display'] = (int)$_POST['display'];
+				unset($_POST['display']);
+			}
+
+			foreach($_POST as $k => $v) {
+				if(in_array($k, $fields, true) && !empty($v)) {
+					switch($k) {
+						case 'id':
+						case 'status':
+							$filters[] = $k.' = '.$modx->db->escape($modx->stripTags($v));
+							break;
+						default:
+							$filters[] = $k.' LIKE "%'.$modx->db->escape($modx->stripTags($v)).'%"';
+					}
+				}
+			}
+		}
+
+		$params = [
 			'controller' => 'onetable',
 			'table' => 'evocart_orders',
 			'idField' => 'id',
@@ -55,11 +88,36 @@ switch($action) {
 			'prepare' => 'prepareEvoCartOrders',
 			'orderBy' => 'id DESC',
 			'paginate' => 'pages',
+			'addWhereList' => implode(' AND ', $filters),
 			'id' => 'list',
 			'display' => 10,
-			'debug' => 0
-		]);
-		$modx->setPlaceholder('list.pages', str_replace('0?', 'manager/index.php?', $modx->getPlaceholder('list.pages')));
+			'debug' => 0,
+			'TplWrapPaginate' => '@CODE: <ul class="[+class+]">[+wrap+]</ul>',
+			'TplPage' => '@CODE: <li class="page-item"><a href="[+link+]" class="page-link page" data-page="[+num+]">[+num+]</a></li>',
+			'TplCurrentPage' => '@CODE: <li class="page-item active">
+		      <span class="page-link">[+num+]</span>
+		    </li>',
+			'TplNextP' => '@CODE:',
+			'TplPrevP' => '@CODE:',
+			'noRedirect' => 1
+		];
+
+		$data['list'] = $modx->runSnippet('DocLister', array_merge($params, $dl));
+
+		$data['pages'] = str_replace(['0?', '0.html?'], 'manager/index.php?', $modx->getPlaceholder('list.pages'));
+		if($is_ajax) {
+			echo json_encode($data);
+			exit;
+		}
+
+		//забираем статистику
+		/*
+		$o_total = $modx->db->getRow($modx->db->query("SELECT COUNT(*) AS cnt, SUM(price) AS price FROM ".$modx->getFullTableName('evocart_orders')));
+        $o_price = number_format($o_total['price']+$o_total_old['price'], 2, ',', ' ');
+		$o_avg = round(($o_total['price']+$o_total_old['price']) / ($o_total['cnt']+$o_total_old['cnt']));
+		*/
+
+
 		$inner = $modx->tpl->parseChunk('@FILE:list', $data);
 }
 

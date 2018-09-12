@@ -109,8 +109,3 @@ body {
     -ms-filter: blur(1px);
     filter: blur(1px);
 }
-
-.pagination a,
-.pagination b {
-    margin: 0 5px;
-}
