@@ -86,7 +86,8 @@
 ## модуль персональных скидок для веб-пользователей
 по сути это решение *PageBuilder* (https://github.com/mnoskov/pagebuilder), которое подключено к веб-пользователям с небольшими правками и необходимым конфигом (pluguins/evoCartDiscounts/config/discounts.php) – настройки вывода категорий и брендов там.
 Для применения скидки после авторизации веб-пользователя надо закинуть данные его персональной скидки в сессию:
-    ```php
+
+    ```
     include_once MODX_BASE_PATH . 'assets/plugins/evoCartDiscounts/core.php';
     $pb = new evoCartDiscounts($modx);
     $_SESSION['discounts'] = $pb->render(['user_id' => 1]);
