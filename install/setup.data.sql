@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `{PREFIX}evocart_orders` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `short_txt` text NOT NULL,
     `content` text,
-    `price` varchar(255) NOT NULL,
+    `price` float NOT NULL,
     `currency` varchar(255) NOT NULL,
     `date` datetime DEFAULT NULL,
     `sentdate` datetime DEFAULT NULL,
